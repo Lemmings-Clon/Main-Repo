@@ -1,10 +1,16 @@
 #include <stdlib.h>
+#include <string>
 #include <iostream>
 
 using namespace std;
 
 int main()
 {
-	cout << "Hello World\n";
+
+	string text = "Hello World";
+
+	cout << text << endl;;
+	
+	
 	return 0;
 }
