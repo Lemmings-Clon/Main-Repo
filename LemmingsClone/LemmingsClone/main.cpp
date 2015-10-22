@@ -1,24 +1,45 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
-int main()
-{
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+using namespace std;
 
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
+#include "NLTmxMap.h"
 
-		window.clear();
-		window.draw(shape);
-		window.display();
+
+static void* loadFile(const char * filename, bool appendNull) {
+
+	FILE* f = fopen(filename, "r");
+	if (!f) {
+		return 0;
 	}
+
+	fseek(f, 0, SEEK_END);
+	auto length = ftell(f) + appendNull;
+	fseek(f, 0, SEEK_SET);
+
+	void* buffer = malloc(length);
+	fread(buffer, length, 1, f);
+	fclose(f);
+
+	if (appendNull) {
+		((char*)buffer)[length - 1] = 0;
+	}
+
+	return buffer;
+}
+
+
+int main(int argc, const char * argv[])
+{
+	char * xml = (char*)loadFile("backgroundtest.tmx", true);
+
+	NLTmxMap* map = NLLoadTmxMap(xml);
+
+	std::cout << "width " << map->width << ", height " << map->height << std::endl;
+
+	delete map;
+
 
 	return 0;
 }
+
