@@ -9,7 +9,8 @@ using namespace std;
 static void* loadFile(const char * filename, bool appendNull) {
 
 	FILE* f = fopen(filename, "r");
-	if (!f) {
+	if (!f) 
+	{
 		return 0;
 	}
 
@@ -21,7 +22,8 @@ static void* loadFile(const char * filename, bool appendNull) {
 	fread(buffer, length, 1, f);
 	fclose(f);
 
-	if (appendNull) {
+	if (appendNull) 
+	{
 		((char*)buffer)[length - 1] = 0;
 	}
 
