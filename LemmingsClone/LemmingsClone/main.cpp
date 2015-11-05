@@ -1,46 +1,35 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
+#include "SFMLtilex.h"
 using namespace std;
-
-#include "NLTmxMap.h"
-
-
-static void* loadFile(const char * filename, bool appendNull) {
-
-	FILE* f = fopen(filename, "r");
-	if (!f) 
-	{
-		return 0;
-	}
-
-	fseek(f, 0, SEEK_END);
-	auto length = ftell(f) + appendNull;
-	fseek(f, 0, SEEK_SET);
-
-	void* buffer = malloc(length);
-	fread(buffer, length, 1, f);
-	fclose(f);
-
-	if (appendNull) 
-	{
-		((char*)buffer)[length - 1] = 0;
-	}
-
-	return buffer;
-}
 
 
 int main(int argc, const char * argv[])
 {
-	char * xml = (char*)loadFile("backgroundtest.tmx", true);
+	SFMLtilex* f = new SFMLtilex("Septest.tmx");
+	f->showMapContent();
 
-	NLTmxMap* map = NLLoadTmxMap(xml);
+	sf::ContextSettings setting;
+	setting.antialiasingLevel = 2;
 
-	std::cout << "width " << map->width << ", height " << map->height << std::endl;
+	sf::RenderWindow window(sf::VideoMode(f->getTotalWidth(),f->getTotalHeight()), "My window", sf::Style::Default, setting);
+	while (window.isOpen())
+	{
+		// check all the window's events that were triggered since the last iteration of the loop
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			// "close requested" event: we close the window
+			if (event.type == sf::Event::Closed)
+				delete f;
+				window.close();
+		}
 
-	delete map;
-
+		window.clear();
+		f->loadTexture();
+		f->draw(window);
+		window.display();
+	}	
 
 	return 0;
 }
