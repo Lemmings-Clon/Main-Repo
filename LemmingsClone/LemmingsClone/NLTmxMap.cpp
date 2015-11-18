@@ -1,6 +1,6 @@
 #include "rapidxml.hpp"
 #include <iostream>
-#include "NLTmxMap.h"
+#include "NLTmxMap.hpp"
 
 
 
