@@ -14,7 +14,7 @@ int main(int argc, const char * argv[])
 	//f->showMapContent();
 	
 	sf::Texture texture;
-	if (!texture.loadFromFile("char.png"))
+	if (!texture.loadFromFile("char2.png"))
 	{
 		std::cout << "Failed to load player spritesheet!" << std::endl;
 		return 1;
