@@ -2,9 +2,10 @@
 #include <iostream>
 #include "SFMLtilex.hpp"
 #include "Player.hpp"
+#include "windows.h"
 using namespace std;
 
-
+bool showConsole = false;
 
 int main(int argc, const char * argv[])
 {
@@ -18,7 +19,7 @@ int main(int argc, const char * argv[])
 
 	sf::ContextSettings setting;
 	setting.antialiasingLevel = 2;
-
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	sf::RenderWindow window(sf::VideoMode(f->getTotalWidth(),f->getTotalHeight()), "PortalGuy", sf::Style::Default, setting);
 	
 	while (window.isOpen())
@@ -42,6 +43,14 @@ int main(int argc, const char * argv[])
 				case sf::Keyboard::R:
 					f->reloadMap();
 					f->loadTexture();
+					break;
+				case sf::Keyboard::C:
+					showConsole = !showConsole;
+					if(showConsole)
+					ShowWindow(GetConsoleWindow(), SW_SHOW);
+					else
+					ShowWindow(GetConsoleWindow(), SW_HIDE);
+
 					break;
 				case sf::Keyboard::A:
 					f->changeColMap();

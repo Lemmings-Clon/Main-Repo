@@ -48,6 +48,7 @@ private:
 	//jump variables
 	short maxFallSpeed;
 	float jumpImp;
+	float configJumpImp;
 	float v;
 	float t;
 	float g;

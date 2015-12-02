@@ -31,7 +31,7 @@ void Player::setupPlayer(){
 void Player::setupText(){
 	font.loadFromFile("C:/Windows/Fonts/CHILLER.TTF");
 	text.setFont(font);
-	text.setCharacterSize(65);
+	text.setCharacterSize(95);
 	text.setColor(sf::Color::Red);
 	text.setStyle(sf::Text::Bold);
 }
@@ -75,7 +75,7 @@ void Player::move(){
 
 	}
 	if(turn){
-		//	cout << "Turned" << endl;
+		
 		step = 0;
 		acc = 1;
 		turn = false;
@@ -85,7 +85,7 @@ void Player::move(){
 
 
 
-	while(steps < (clock.getElapsedTime().asMilliseconds()/10)-starttime){
+	while(steps < clock.getElapsedTime().asMilliseconds()/10-starttime){
 		++steps;
 		// Bewegung in x richtung
 
@@ -218,7 +218,7 @@ void Player::jump(){
 
 	if(isJumping || isFalling)
 		return;
-	jumpImp = 5;
+	jumpImp = configJumpImp;
 	isJumping = true;
 
 
@@ -235,6 +235,7 @@ void Player::setupJumpConfig(){
 	oldHeight = -1;
 	//jump variables
 	maxFallSpeed = 5;
+	configJumpImp = 10;
 	g = 0.981f;
 	v = 0;
 	t = 0;
