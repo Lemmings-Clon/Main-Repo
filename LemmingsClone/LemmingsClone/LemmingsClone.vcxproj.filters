@@ -21,11 +21,20 @@
     <ClCompile Include="NLTmxMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SFMLtilex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NLTmxMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rapidxml.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -37,6 +46,21 @@
     </ClInclude>
     <ClInclude Include="rapidxml_iterators.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NLTmxMap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SFMLtilex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -191,7 +191,7 @@ void SFMLtilex::draw(sf::RenderWindow& window){
 
 void SFMLtilex::loadTileshapes(){
 	tileshapes.clear();
-	tileshapes.resize(17);
+	tileshapes.resize(21);
 
 	/* LOWER PORTAL */
 
@@ -207,7 +207,7 @@ void SFMLtilex::loadTileshapes(){
 	tileshapes.erase (tileshapes.begin()+ (int)tileshape::LOWERPORTAL +1);
 
 
-	/* MIDDLE BLOCK  und LAVA*/
+	/* MIDDLE BLOCK */
 
 	sf::ConvexShape shapeMiddleBlock;
 	shapeMiddleBlock.setPointCount(4);
@@ -252,7 +252,7 @@ void SFMLtilex::loadTileshapes(){
 	sf::ConvexShape rightShape;
 	rightShape.setPointCount(4);
 
-	rightShape.setPoint(0, sf::Vector2f(00,0));
+	rightShape.setPoint(0, sf::Vector2f(0,0));
 	rightShape.setPoint(1, sf::Vector2f(30,3));
 	rightShape.setPoint(2, sf::Vector2f(30,26));
 	rightShape.setPoint(3, sf::Vector2f(0,32));
@@ -274,6 +274,19 @@ void SFMLtilex::loadTileshapes(){
 
 	tileshapes.insert (tileshapes.begin() + (int)tileshape::LAVA, shapeLava);
 	tileshapes.erase (tileshapes.begin()+ (int)tileshape::LAVA +1);
+
+	/* DIG*/
+
+	sf::ConvexShape shapedigblock;
+	shapedigblock.setPointCount(4);
+
+	shapedigblock.setPoint(0, sf::Vector2f(0, 0));
+	shapedigblock.setPoint(1, sf::Vector2f(33, 0));
+	shapedigblock.setPoint(2, sf::Vector2f(33, 32));
+	shapedigblock.setPoint(3, sf::Vector2f(0, 32));
+
+	tileshapes.insert(tileshapes.begin() + (int)tileshape::DIGBLOCK, shapedigblock);
+	tileshapes.erase(tileshapes.begin() + (int)tileshape::DIGBLOCK + 1);
 }
 
 void SFMLtilex::showMapContent(){

@@ -6,7 +6,7 @@
 #include <iostream>
 #include "NLTmxMap.hpp"
 
-enum class tileshape {SKY=8,UPPERPORTAL=12, LOWERPORTAL=16, LEFTBLOCK=1, MIDDLEBLOCK=2, RIGHTBLOCK=3, START = 15, LAVA =5}; //Enumeration der verschiedenen Tiles
+enum class tileshape {SKY=8,UPPERPORTAL=12, LOWERPORTAL=16, LEFTBLOCK=1, MIDDLEBLOCK=2, RIGHTBLOCK=3, START = 15, LAVA =5, DIGBLOCK=6}; //Enumeration der verschiedenen Tiles
 
 struct tilePos{
 	tileshape type;  //Art des Tileshapes
