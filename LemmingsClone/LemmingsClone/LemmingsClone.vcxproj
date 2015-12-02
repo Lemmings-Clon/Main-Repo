@@ -163,10 +163,10 @@
     <ClCompile Include="SFMLtilex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.hpp" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.hpp" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.hpp" />
     <ClInclude Include="NLTmxMap.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayState.hpp" />
