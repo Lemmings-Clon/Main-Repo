@@ -13,29 +13,65 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{ee372095-aeff-43c0-a2f8-818bbf66588e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\SFMLtilex">
+      <UniqueIdentifier>{2c17052a-764b-423b-aa84-de81300b3634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\SFMLtilex\Abhängigkeiten">
+      <UniqueIdentifier>{d4ce186a-2d0c-4b22-b817-a19f3184ddcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SFMLtilex.cpp">
+      <Filter>Player\SFMLtilex</Filter>
+    </ClCompile>
     <ClCompile Include="NLTmxMap.cpp">
+      <Filter>Player\SFMLtilex\Abhängigkeiten</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NLTmxMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rapidxml.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_print.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_utils.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Player\SFMLtilex\Abhängigkeiten</Filter>
     </ClInclude>
     <ClInclude Include="rapidxml_iterators.hpp">
+      <Filter>Player\SFMLtilex\Abhängigkeiten</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_print.hpp">
+      <Filter>Player\SFMLtilex\Abhängigkeiten</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_utils.hpp">
+      <Filter>Player\SFMLtilex\Abhängigkeiten</Filter>
+    </ClInclude>
+    <ClInclude Include="SFMLtilex.hpp">
+      <Filter>Player\SFMLtilex</Filter>
+    </ClInclude>
+    <ClInclude Include="NLTmxMap.hpp">
+      <Filter>Player\SFMLtilex\Abhängigkeiten</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayState.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
