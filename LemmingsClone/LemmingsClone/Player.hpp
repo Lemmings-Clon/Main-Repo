@@ -37,6 +37,7 @@ private:
 	sf::Vector2f bounds;
 	sf::Vector2f pos;
 	void setupPlayer();
+	void setupPlayer(const sf::Texture* texture);
 	bool win;
 	bool dead;
 
@@ -62,6 +63,7 @@ private:
 public:
 	
 	Player(SFMLtilex* map);
+	Player(SFMLtilex* map, const sf::Texture* texture);
 	//void setMap(SFMLtilex* map){ pMap= map;};
 	void setTilePos(std::vector<tilePos> pos){cTilePos = pos;};
 	void setBounds(sf::Vector2f bnd){bounds = bnd;};

@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NLTmxMap.cpp" />
@@ -161,6 +163,8 @@
     <ClCompile Include="SFMLtilex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.hpp" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="NLTmxMap.hpp" />

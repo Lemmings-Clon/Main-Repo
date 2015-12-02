@@ -1,7 +1,7 @@
 #include "Player.hpp"
 using namespace std;
 
-Player::Player(SFMLtilex* map){
+Player::Player(SFMLtilex* map) {
 
 	pMap = map;
 	setPos(pMap->getStart());
@@ -9,6 +9,36 @@ Player::Player(SFMLtilex* map){
 	setBounds(pMap->getBounds());
 	pMap->loadTexture();
 	setupPlayer();
+}
+
+
+Player::Player(SFMLtilex* map, const sf::Texture* texture){
+
+	pMap = map;
+	setPos(pMap->getStart());
+	setTilePos(pMap->getTilePos());
+	setBounds(pMap->getBounds());
+	pMap->loadTexture();
+	setupPlayer(texture);
+}
+
+void Player::setupPlayer(const sf::Texture* texture) {
+
+	playerShape.setSize(sf::Vector2f(31, 31));
+	//playerShape.setFillColor(sf::Color::Green);
+	playerShape.setTexture(texture);
+
+
+	turn = true;
+	start = false;
+	win = false;
+	dead = false;
+	speed = 1.85f;
+	currentDir = direction::INITIAL;
+	setupText();
+	setupJumpConfig();
+
+	//pMap->showMapContent();
 }
 
 void Player::setupPlayer(){
@@ -134,6 +164,16 @@ void Player::moveX(){
 				if(isFalling||isJumping)
 					move(direction::STOP);
 				break;
+			case tileshape::DIGBLOCK:
+				if (walk == false) {
+					isFalling = true;
+				}
+				else {
+					setX(xOld);
+					if (isFalling || isJumping)
+						move(direction::STOP);
+				}
+				break;
 			case tileshape::LAVA:
 				dead = true;
 				return;
@@ -194,13 +234,27 @@ void Player::moveY(){
 				case tileshape::LEFTBLOCK:
 				case tileshape::RIGHTBLOCK:
 				case tileshape::MIDDLEBLOCK:
-						
 					isJumping=isFalling=mayFall = false;
 					jumpImp=0;
 					if(v<=0){ //wenn er springt
 						setY(tCurrent.tilepos.getGlobalBounds().top+tCurrent.tilepos.getGlobalBounds().height);
 					}else{ //wenn er fällt
 						setY(tCurrent.tilepos.getGlobalBounds().top-31);		
+					}
+					break;
+				case tileshape::DIGBLOCK:
+					if (walk == false) {
+						isFalling = true;
+					}
+					else {
+						isJumping = isFalling = mayFall = false;
+						jumpImp = 0;
+						if (v <= 0) { //wenn er springt
+							setY(tCurrent.tilepos.getGlobalBounds().top + tCurrent.tilepos.getGlobalBounds().height);
+						}
+						else { //wenn er fällt
+							setY(tCurrent.tilepos.getGlobalBounds().top - 31);
+						}
 					}
 					break;
 				case tileshape::LAVA:

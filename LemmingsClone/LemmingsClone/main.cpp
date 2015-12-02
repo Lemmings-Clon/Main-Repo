@@ -3,6 +3,8 @@
 #include "SFMLtilex.hpp"
 #include "Player.hpp"
 #include "windows.h"
+#include "AnimatedSprite.hpp"
+
 using namespace std;
 
 bool showConsole = false;
@@ -13,8 +15,42 @@ int main(int argc, const char * argv[])
 
 	//f->showMapContent();
 	
+	sf::Texture texture;
+	if (!texture.loadFromFile("char2.png"))
+	{
+		std::cout << "Failed to load player spritesheet!" << std::endl;
+		return 1;
+	}
 
-	Player* player = new Player(f);
+	Player* player = new Player(f, &texture);
+	
+	Animation walkingAnimationDown;
+	walkingAnimationDown.setSpriteSheet(texture);
+	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
+	walkingAnimationDown.addFrame(sf::IntRect(64, 0, 32, 32));
+	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
+	walkingAnimationDown.addFrame(sf::IntRect(0, 0, 32, 32));
+
+	Animation walkingAnimationLeft;
+	walkingAnimationLeft.setSpriteSheet(texture);
+	walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
+	walkingAnimationLeft.addFrame(sf::IntRect(64, 32, 32, 32));
+	walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
+	walkingAnimationLeft.addFrame(sf::IntRect(0, 32, 32, 32));
+
+	Animation walkingAnimationRight;
+	walkingAnimationRight.setSpriteSheet(texture);
+	walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
+	walkingAnimationRight.addFrame(sf::IntRect(64, 64, 32, 32));
+	walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
+	walkingAnimationRight.addFrame(sf::IntRect(0, 64, 32, 32));
+
+	Animation walkingAnimationUp;
+	walkingAnimationUp.setSpriteSheet(texture);
+	walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
+	walkingAnimationUp.addFrame(sf::IntRect(64, 96, 32, 32));
+	walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
+	walkingAnimationUp.addFrame(sf::IntRect(0, 96, 32, 32));
 
 
 	sf::ContextSettings setting;
