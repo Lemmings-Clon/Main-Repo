@@ -153,14 +153,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NLTmxMap.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="SFMLtilex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="GameState.hpp" />
     <ClInclude Include="NLTmxMap.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="PlayState.hpp" />
     <ClInclude Include="rapidxml.hpp" />
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_print.hpp" />
