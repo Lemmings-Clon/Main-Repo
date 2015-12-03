@@ -141,20 +141,20 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\konst\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\include;C:\Users\Sebastian\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Sebastian\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\include;C:\Users\konst\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\konst\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\lib;C:\Users\Sebastian\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Sebastian\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\lib;C:\Users\konst\Documents\GitHubVisualStudio\Main-Repo\LemmingsClone\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.cpp" />
+    <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NLTmxMap.cpp" />
@@ -163,10 +163,10 @@
     <ClCompile Include="SFMLtilex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSprite.hpp" />
+    <ClInclude Include="Animation.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameState.hpp" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\AnimatedSprite.hpp" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\AnimationTest\AnimationTest\Animation.hpp" />
     <ClInclude Include="NLTmxMap.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayState.hpp" />
@@ -175,6 +175,12 @@
     <ClInclude Include="rapidxml_print.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="SFMLtilex.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tiles.tmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="tiles2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

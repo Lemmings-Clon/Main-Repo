@@ -54,7 +54,8 @@ NLTmxMap* NLLoadTmxMap( char *xml )
         
         const char* data = layernode->first_node( "data" )->value();
         
-        layer->data = new int[ layer->width * layer->height ];
+		const size_t dataSize = layer->width * layer->height;
+        layer->data = new int[dataSize];
         
         char* copy = (char*) malloc( strlen( data ) + 1 );
         strcpy( copy, data );
@@ -62,8 +63,11 @@ NLTmxMap* NLLoadTmxMap( char *xml )
 
         int index = 0;
         while ( item ) {
+			//assert(index < dataSize);
             layer->data[ index ] = atoi( item );
             index++;
+
+
             
             item = strtok( 0, separators );
         }
