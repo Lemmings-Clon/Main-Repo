@@ -6,7 +6,7 @@
 #include <iostream>
 #include "NLTmxMap.hpp"
 
-enum class tileshape {SKY=8,UPPERPORTAL=12, LOWERPORTAL=16, LEFTBLOCK=1, MIDDLEBLOCK=2, RIGHTBLOCK=3, START = 15, LAVA =5, DIGBLOCK=6}; //Enumeration der verschiedenen Tiles
+enum class tileshape {SKY=8,UPPERPORTAL=12, LOWERPORTAL=16, LEFTBLOCK=1, MIDDLEBLOCK=2, RIGHTBLOCK=3, START = 15, LAVA =5, DIGBLOCK=6, MIDDLEBREAK_1 = 6, MIDDLEBREAK_2 = 10}; //Enumeration der verschiedenen Tiles
 
 struct tilePos{
 	tileshape type;  //Art des Tileshapes
@@ -15,7 +15,7 @@ struct tilePos{
 
 class SFMLtilex {
 
-private: 
+public: 
 
 	/* Map */
 	char* cFilename;  //Filename der tmx map
@@ -27,6 +27,7 @@ private:
 	void refreshSprites(); 
 	std::vector<sf::Sprite> cSprites; //Speichert die Sprites der einzelnen Tiles
 	sf::Vector2f bounds; //größe der Karte
+	void updateMap(int x, int y, tileshape newshape) { cLayer->data[mapWidth*y+x] = (int)newshape; } //Gibt einer Kachel einen neuenshape
 
 	/* Das Tileset (wie die Textur auszulesen ist) */
 	NLTmxMapTileset* cTileset; //Das Tileset (wie die Textur auszulesen ist)
@@ -47,7 +48,7 @@ private:
 	std::vector<sf::ConvexShape> tileshapes; 
 	//Kollisions-Tile-Arten in Vector laden (hartcoded)
 	void  loadTileshapes(); 
-	std::vector<tilePos> cTilePos; //Kollisons-Map
+	std::vector<tilePos> cTileColMap; //Kollisons-Map
 	bool debugColmap; //Kollisons-Map anzeigen zum debuggen
 	//Kollisons-Map laden und Startpunkt berechen
 	void calcStart(); 
@@ -61,7 +62,7 @@ public:
 	//Position des Startpunktes 
 	sf::Vector2f getStart(){return startPoint;}; 
 	//Lifert die Kollition-Map in einem tilePos vector
-	std::vector<tilePos>  getTilePos(){return cTilePos;};
+	std::vector<tilePos>  getTilePos(){return cTileColMap;};
 	//layer auswählen
 	void selectLayer(unsigned short layer); 
 	//tileset auswählen
@@ -79,6 +80,15 @@ public:
 	int loadTexture();
 	//Map Zeichen
 	void draw(sf::RenderWindow& window); 
+	void digBlock(int x, int y, tileshape newshape) { updateMap( x,  y,  newshape); }
+	//Breite eines tiles in px
+	const int getTileWidth() { return tWidth; }
+	//Höhe eines tiles in px
+	const int getTileHeight() { return tHeight; }
+	//Anzahl der Tiles in X Richtung
+	const int getMapWidth() { return mapWidth; }
+	//Anzahl der Tiles in Y Richtung
+	const int getMapHeight() { return mapHeight; }
 };
 
 #endif

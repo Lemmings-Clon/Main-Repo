@@ -45,6 +45,7 @@ NLTmxMap* loadMyMap(char* filename){
 SFMLtilex::SFMLtilex(char* filename){
 	cFilename = filename;
 	debugColmap = false;
+	loadTileshapes();
 	reloadMap();
 }
 
@@ -52,7 +53,6 @@ void SFMLtilex::reloadMap(){
 	cMap = loadMyMap(cFilename);
 	selectLayer(0);					
 	selectTileset(0);
-	loadTileshapes();
 	calcStart();
 	bounds.x = (float)getTotalWidth();
 	bounds.y = (float)getTotalHeight();
@@ -122,8 +122,8 @@ void SFMLtilex::refreshSprites(){
 void SFMLtilex::calcStart(){
 
 	int const * p = cLayer->data;  //Pointer auf die aktuelle Tile im xml
-	cTilePos.clear();
-	cTilePos.reserve(cLayer->height*cLayer->width);
+	cTileColMap.clear();
+	cTileColMap.reserve(cLayer->height*cLayer->width);
 	sf::Vector2f vec; //hier wird die Position der aktuellen kollisions-tile gespeichert
 
 	for(int i = 0; i < mapHeight; ++i) {
@@ -143,7 +143,7 @@ void SFMLtilex::calcStart(){
 				tp.type = (tileshape)*p;
 				tp.tilepos = sh;
 
-				cTilePos.push_back(tp);
+				cTileColMap.push_back(tp);
 			}
 
 			if(*p++ == (int)tileshape::START)  {
@@ -153,10 +153,12 @@ void SFMLtilex::calcStart(){
 			}
 		}
 	}
-	//cout << "shapes: " << cTilePos.tilePos.size() << endl;
+	//cout << "shapes: " << cTileColMap.tilePos.size() << endl;
 }
 
 void SFMLtilex::draw(sf::RenderWindow& window){
+	
+
 
 	if(!textureLoaded){
 		cout << "Cannot draw, you have to load the Texture first" << endl;
@@ -185,8 +187,8 @@ void SFMLtilex::draw(sf::RenderWindow& window){
 	}
 
 	if(debugColmap)
-		for(int i = 0; i < cTilePos.size(); ++i)
-			window.draw(cTilePos[i].tilepos);
+		for(int i = 0; i < cTileColMap.size(); ++i)
+			window.draw(cTileColMap[i].tilepos);
 }
 
 void SFMLtilex::loadTileshapes(){
@@ -219,6 +221,10 @@ void SFMLtilex::loadTileshapes(){
 
 	tileshapes.insert (tileshapes.begin() + (int)tileshape::MIDDLEBLOCK, shapeMiddleBlock);
 	tileshapes.erase (tileshapes.begin()+ (int)tileshape::MIDDLEBLOCK +1);
+	tileshapes.insert(tileshapes.begin() + (int)tileshape::MIDDLEBREAK_1, shapeMiddleBlock);
+	tileshapes.erase(tileshapes.begin() + (int)tileshape::MIDDLEBREAK_1 + 1);
+	tileshapes.insert(tileshapes.begin() + (int)tileshape::MIDDLEBREAK_2, shapeMiddleBlock);
+	tileshapes.erase(tileshapes.begin() + (int)tileshape::MIDDLEBREAK_2 + 1);
 
 
 	/* UPPER PORTAL */

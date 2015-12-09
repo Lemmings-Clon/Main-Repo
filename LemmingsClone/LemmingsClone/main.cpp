@@ -16,14 +16,14 @@ int main(int argc, const char * argv[])
 	//f->showMapContent();
 	
 	sf::Texture texture;
-	if (!texture.loadFromFile("char2.png"))
+	if (!texture.loadFromFile("char3.png"))
 	{
 		std::cout << "Failed to load player spritesheet!" << std::endl;
 		return 1;
 	}
 
-	Player* player = new Player(f, &texture);
-	
+	Player* player = new Player(f);
+	player->setTexture(&texture);
 	Animation walkingAnimationDown;
 	walkingAnimationDown.setSpriteSheet(texture);
 	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
@@ -56,7 +56,8 @@ int main(int argc, const char * argv[])
 	sf::ContextSettings setting;
 	setting.antialiasingLevel = 2;
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
-	sf::RenderWindow window(sf::VideoMode(f->getTotalWidth(),f->getTotalHeight()), "PortalGuy", sf::Style::Default, setting);
+	int w, h;
+	sf::RenderWindow window(sf::VideoMode( w = f->getTotalWidth(), h = f->getTotalHeight()), "PortalGuy", sf::Style::Default, setting);
 	
 	while (window.isOpen())
 	{
@@ -66,6 +67,7 @@ int main(int argc, const char * argv[])
 		{
 			// "close requested" event: we close the window
 			if (event.type == sf::Event::Closed){
+				delete player;
 				delete f;
 				window.close();
 			}
@@ -76,9 +78,21 @@ int main(int argc, const char * argv[])
 				case sf::Keyboard::Escape:
 					window.close();
 					break;
+				case sf::Keyboard::M:
+					player->consoleMap();
+					break;
+				case sf::Keyboard::D:
+					player->dig();
+					break;
 				case sf::Keyboard::R:
 					f->reloadMap();
 					f->loadTexture();
+					break;
+				case sf::Keyboard::S:
+					player->toogleSpeedText();
+					break;
+				case sf::Keyboard::I:
+					player->showIntersectCounter();
 					break;
 				case sf::Keyboard::C:
 					showConsole = !showConsole;

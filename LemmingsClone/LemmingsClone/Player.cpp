@@ -4,7 +4,12 @@ using namespace std;
 Player::Player(SFMLtilex* map) {
 
 	pMap = map;
-	setPos(pMap->getStart());
+	cDig = false;
+	showSpeedText = false;
+	jumpImp = 0;
+	sf::Vector2f tempStartPos(pMap->getStart());
+	tempStartPos.y = pMap->getStart().y + pMap->getTileHeight() - playerHeight;
+	setPos(tempStartPos);	
 	setTilePos(pMap->getTilePos());
 	setBounds(pMap->getBounds());
 	pMap->loadTexture();
@@ -12,38 +17,9 @@ Player::Player(SFMLtilex* map) {
 }
 
 
-Player::Player(SFMLtilex* map, const sf::Texture* texture){
-
-	pMap = map;
-	setPos(pMap->getStart());
-	setTilePos(pMap->getTilePos());
-	setBounds(pMap->getBounds());
-	pMap->loadTexture();
-	setupPlayer(texture);
-}
-
-void Player::setupPlayer(const sf::Texture* texture) {
-
-	playerShape.setSize(sf::Vector2f(31, 31));
-	//playerShape.setFillColor(sf::Color::Green);
-	playerShape.setTexture(texture);
-
-
-	turn = true;
-	start = false;
-	win = false;
-	dead = false;
-	speed = 1.85f;
-	currentDir = direction::INITIAL;
-	setupText();
-	setupJumpConfig();
-
-	//pMap->showMapContent();
-}
-
 void Player::setupPlayer(){
 
-	playerShape.setSize(sf::Vector2f(31,31));
+	playerShape.setSize(sf::Vector2f(playerWidth, playerHeight));
 	playerShape.setFillColor(sf::Color::Green);
 
 	turn = true;
@@ -64,7 +40,15 @@ void Player::setupText(){
 	text.setCharacterSize(95);
 	text.setColor(sf::Color::Red);
 	text.setStyle(sf::Text::Bold);
+	
+	speedText.setFont(font);
+	speedText.setCharacterSize(22);
+	speedText.setColor(sf::Color::Black);
+	speedText.setPosition(bounds.x - 50, 10);
+
 }
+
+
 
 void Player::move(direction dir){
 
@@ -142,29 +126,33 @@ void Player::moveX(){
 		setX(0);
 
 	/* check right */
-	if((pos.x+32)>bounds.x)
-		setX(bounds.x-32);
+	if((pos.x+playerWidth)>bounds.x)
+		setX(bounds.x-playerWidth);
 
 
-	for(int counter=0; counter < cTilePos.size(); ++counter){
-		tilePos tCurrent = cTilePos[counter];
+	for(int counter=0; counter < cTileColMap.size(); ++counter){
+		tilePos tCurrent = cTileColMap[counter];
 		if(playerShape.getGlobalBounds().intersects(tCurrent.tilepos.getGlobalBounds())){
-			switch(cTilePos[counter].type)
+			switch(cTileColMap[counter].type)
 			{
 			case tileshape::UPPERPORTAL:
 			case tileshape::LOWERPORTAL:
 				cout << " WIN!! " << endl;
 				win = true;
+				
 				return;
+	
+			case tileshape::MIDDLEBLOCK:
+			case tileshape::MIDDLEBREAK_1:
+			case tileshape::MIDDLEBREAK_2:
 			case tileshape::LEFTBLOCK:
 			case tileshape::RIGHTBLOCK:
-			case tileshape::MIDDLEBLOCK:
 				//	cout << " STOP " << endl;
 				setX(xOld);
 				if(isFalling||isJumping)
 					move(direction::STOP);
 				break;
-			case tileshape::DIGBLOCK:
+		/*	case tileshape::DIGBLOCK:
 				if (walk == false) {
 					isFalling = true;
 				}
@@ -173,15 +161,17 @@ void Player::moveX(){
 					if (isFalling || isJumping)
 						move(direction::STOP);
 				}
-				break;
+				break;*/
 			case tileshape::LAVA:
 				dead = true;
 				return;
-			default:break;
+			default: break;
 			}
 
 		}
 	}
+
+	//cDig = false;
 
 	if(step<1000){
 		if(acc<30)
@@ -208,41 +198,89 @@ void Player::moveY(){
 
 
 	v = g * ++t - jumpImp;
-
-	if(v>maxFallSpeed)
+	bool die = false;
+	if (v > maxFallSpeed) {
 		v = maxFallSpeed;
-
+		speedText.setColor(sf::Color::Red);
+		cDig = true;
+		die = true;
+	}
+	speedText.setString(std::to_string(v));
 	setY(pos.y+v);
 	bool mayFall = true;
 
-	if((pos.y+31)>bounds.y){  //wenn der Player den Boden berührt, gibt es keine Y-Bewegung
-		setY(bounds.y-31);
+	if((pos.y+playerHeight)>bounds.y){  //wenn der Player den Boden berührt, gibt es keine Y-Bewegung
+		setY(bounds.y-playerHeight);
 		isJumping=isFalling=mayFall=false;
 		jumpImp=0;
+		if (die)
+			dead = true;
 
 	}else{
-		for(int counter=0; counter < cTilePos.size(); ++counter){
-			tilePos tCurrent = cTilePos[counter];
+		++testcounter;
+		float newPosition = pos.y;
+		for(int counter=0; counter < cTileColMap.size(); ++counter){
+			tilePos tCurrent = cTileColMap[counter];
 			if(playerShape.getGlobalBounds().intersects(tCurrent.tilepos.getGlobalBounds())){
-
-				switch(cTilePos[counter].type){
+				if (showIntersect) {
+					cout << testcounter << ", intersect." << endl;
+					cout << "X: " << tCurrent.tilepos.getPosition().x << " Y: " << tCurrent.tilepos.getPosition().y << endl;
+					}switch (cTileColMap[counter].type) {
 				case tileshape::UPPERPORTAL:
 				case tileshape::LOWERPORTAL:
 					cout << " WIN!! " << endl;
 					win = true;
 					return;
+				case tileshape::MIDDLEBLOCK:
+					if (cDig && 
+						playerShape.getPosition().x+playerWidth/2-1<=tCurrent.tilepos.getPosition().x+tCurrent.tilepos.getGlobalBounds().width &&
+						playerShape.getPosition().x + playerWidth / 2+1 > tCurrent.tilepos.getPosition().x) {
+						
+						//std::cout << "Dig1" << endl;
+						pMap->digBlock((int) cTileColMap[counter].tilepos.getPosition().x / pMap->getTileWidth(),
+							(int) cTileColMap[counter].tilepos.getPosition().y / pMap->getTileHeight(),
+							tileshape::MIDDLEBREAK_1);
+						cDig = false;
+						pMap->calcStart();
+						setTilePos(pMap->getTilePos());
+					}
+				case tileshape::MIDDLEBREAK_1:
+					if (cDig && 
+						playerShape.getPosition().x + playerWidth / 2-1 <= tCurrent.tilepos.getPosition().x + tCurrent.tilepos.getGlobalBounds().width &&
+						playerShape.getPosition().x + playerWidth / 2+1 > tCurrent.tilepos.getPosition().x) {
+						//std::cout << "Dig2!" << endl;
+						pMap->digBlock((int)cTileColMap[counter].tilepos.getPosition().x / pMap->getTileWidth(),
+							(int)cTileColMap[counter].tilepos.getPosition().y / pMap->getTileHeight(),
+							tileshape::MIDDLEBREAK_2);
+						cDig = false;
+						pMap->calcStart();
+						setTilePos(pMap->getTilePos());
+					}
+				case tileshape::MIDDLEBREAK_2:
+					if (cDig && 
+						playerShape.getPosition().x + playerWidth / 2 -1<= tCurrent.tilepos.getPosition().x + tCurrent.tilepos.getGlobalBounds().width &&
+						playerShape.getPosition().x + playerWidth / 2 +1> tCurrent.tilepos.getPosition().x) {
+						//std::cout << "Dig3!" << endl;
+						pMap->digBlock((int)cTileColMap[counter].tilepos.getPosition().x / pMap->getTileWidth(),
+							(int)cTileColMap[counter].tilepos.getPosition().y / pMap->getTileHeight(),
+							tileshape::SKY);
+						cDig = false;
+						pMap->calcStart();
+						setTilePos(pMap->getTilePos());
+					}
 				case tileshape::LEFTBLOCK:
 				case tileshape::RIGHTBLOCK:
-				case tileshape::MIDDLEBLOCK:
 					isJumping=isFalling=mayFall = false;
 					jumpImp=0;
 					if(v<=0){ //wenn er springt
-						setY(tCurrent.tilepos.getGlobalBounds().top+tCurrent.tilepos.getGlobalBounds().height);
+						newPosition= tCurrent.tilepos.getGlobalBounds().top+tCurrent.tilepos.getGlobalBounds().height;
 					}else{ //wenn er fällt
-						setY(tCurrent.tilepos.getGlobalBounds().top-31);		
+						newPosition = tCurrent.tilepos.getGlobalBounds().top-playerHeight;
 					}
+					if (die)
+						dead = true;
 					break;
-				case tileshape::DIGBLOCK:
+			/*	cased tileshape::DIGBLOCK:
 					if (walk == false) {
 						isFalling = true;
 					}
@@ -256,16 +294,19 @@ void Player::moveY(){
 							setY(tCurrent.tilepos.getGlobalBounds().top - 31);
 						}
 					}
-					break;
+					break;*/
 				case tileshape::LAVA:
 					dead = true;
 					return;
 				}
 			}
 		}
+		setY(newPosition);
+		showIntersect = false;
 	}
 	if(mayFall)
 		isFalling = true;
+	cDig = false;
 }
 
 void Player::jump(){
@@ -282,13 +323,16 @@ void Player::drawPlayer(sf::RenderWindow& window){
 	if(win)
 		window.draw(text);
 
+	if(showSpeedText)
+	window.draw(speedText);
+	
 	window.draw(playerShape);
 }
 
 void Player::setupJumpConfig(){
 	oldHeight = -1;
 	//jump variables
-	maxFallSpeed = 5;
+	maxFallSpeed = 10;
 	configJumpImp = 10;
 	g = 0.981f;
 	v = 0;
