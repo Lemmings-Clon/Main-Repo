@@ -17,7 +17,7 @@ public: enum class direction { LEFT, RIGHT, STOP, INITIAL = -1 };
 
 private:
 	//walk variables
-	int steps; //zählt wie viele schritte in der vergangenen Zeit geangen wurden
+	float steps; //zählt wie viele schritte in der vergangenen Zeit geangen wurden
 	bool turn;  //schaut nach ob die richtung gewechselt wurde
 	float acc;  //beschleunigung
 	bool start;
@@ -26,6 +26,8 @@ private:
 	float step; //ist die größe der schritte
 	float speed; //die geschwindigkeit (geschwindigkeit * beschleunigung = eigentliche geschwindigketigeit)
 
+
+
 	// Temp variables
 	sf::Text text;
 	sf::Text helpText;
@@ -33,9 +35,13 @@ private:
 	bool showSpeedText;
 	sf::Text controlText;
 	bool showControlText;
-
+	long frametime;
+	long showGapCounter;
+	
+	
 	bool showIntersect = false;
 	unsigned long testcounter = 0;
+
 
 
 	sf::Font font;
@@ -52,7 +58,6 @@ private:
 	sf::Vector2f bounds;
 	sf::Vector2f pos;
 	void setupPlayer();
-	void setupPlayer(const sf::Texture* texture);
 	bool win;
 	bool dead;
 	bool cDig;
@@ -79,8 +84,7 @@ private:
 public:
 
 	Player(SFMLtilex* map);
-	void inline 
-setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::White); playerShape.setTexture(texture); };
+	void inline setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::White); playerShape.setTexture(texture); };
 	//void setMap(SFMLtilex* map){ pMap= map;};
 	void inline setTilePos(std::vector<tilePos> pos) { cTileColMap = pos; };
 	void inline setBounds(sf::Vector2f bnd) { bounds = bnd; };
@@ -93,7 +97,7 @@ setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::Whi
 	void inline drawMap(sf::RenderWindow &window) { pMap->draw(window); };
 	void inline draw(sf::RenderWindow& window) { drawMap(window); drawPlayer(window); };
 	void consoleMap() { pMap->showMapContent(); }
-	void dig() {cDig = true;}
+	void inline dig() {cDig = true;}
 	void inline toogleSpeedText(){ showSpeedText = !showSpeedText; }
 	void inline toogleControlText() { showControlText = !showControlText; }
 };
