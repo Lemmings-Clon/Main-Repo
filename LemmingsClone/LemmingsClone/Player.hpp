@@ -3,6 +3,7 @@
 
 #include "SFML\Graphics.hpp"
 #include <iostream>
+#include <string>
 #include "SFMLtilex.hpp"
 
 class Player {
@@ -27,8 +28,11 @@ private:
 
 	// Temp variables
 	sf::Text text;
+	sf::Text helpText;
 	sf::Text speedText;
 	bool showSpeedText;
+	sf::Text controlText;
+	bool showControlText;
 
 	bool showIntersect = false;
 	unsigned long testcounter = 0;
@@ -75,22 +79,23 @@ private:
 public:
 
 	Player(SFMLtilex* map);
-	void setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::White); playerShape.setTexture(texture); };
+	void inline 
+setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::White); playerShape.setTexture(texture); };
 	//void setMap(SFMLtilex* map){ pMap= map;};
-	void setTilePos(std::vector<tilePos> pos) { cTileColMap = pos; };
-	void setBounds(sf::Vector2f bnd) { bounds = bnd; };
-	sf::RectangleShape getPlayer() { return playerShape; };
+	void inline setTilePos(std::vector<tilePos> pos) { cTileColMap = pos; };
+	void inline setBounds(sf::Vector2f bnd) { bounds = bnd; };
+	sf::RectangleShape inline getPlayer() { return playerShape; };
 	void jump();
-	void setPos(sf::Vector2f v) { pos = v; refreshPos(); };
-	void setX(float x) { pos.x = x; refreshPos(); };
-	void setY(float y) { pos.y = y; refreshPos(); };
+	void inline setPos(sf::Vector2f v) { pos = v; refreshPos(); };
+	void inline setX(float x) { pos.x = x; refreshPos(); };
+	void inline setY(float y) { pos.y = y; refreshPos(); };
 	void drawPlayer(sf::RenderWindow &window);
-	void drawMap(sf::RenderWindow &window) { pMap->draw(window); };
-	void draw(sf::RenderWindow& window) { drawMap(window); drawPlayer(window); };
+	void inline drawMap(sf::RenderWindow &window) { pMap->draw(window); };
+	void inline draw(sf::RenderWindow& window) { drawMap(window); drawPlayer(window); };
 	void consoleMap() { pMap->showMapContent(); }
 	void dig() {cDig = true;}
-	void toogleSpeedText(){ showSpeedText = !showSpeedText; }
-
+	void inline toogleSpeedText(){ showSpeedText = !showSpeedText; }
+	void inline toogleControlText() { showControlText = !showControlText; }
 };
 
 #endif

@@ -6,6 +6,7 @@ Player::Player(SFMLtilex* map) {
 	pMap = map;
 	cDig = false;
 	showSpeedText = false;
+	showControlText = false;
 	jumpImp = 0;
 	sf::Vector2f tempStartPos(pMap->getStart());
 	tempStartPos.y = pMap->getStart().y + pMap->getTileHeight() - playerHeight;
@@ -40,11 +41,35 @@ void Player::setupText(){
 	text.setCharacterSize(95);
 	text.setColor(sf::Color::Red);
 	text.setStyle(sf::Text::Bold);
+
+	helpText.setFont(font);
+	helpText.setCharacterSize(25);
+	helpText.setColor(sf::Color::Black);
+	helpText.setPosition(10, 10);
+	helpText.setString("Press F1 for controls");
 	
 	speedText.setFont(font);
 	speedText.setCharacterSize(22);
 	speedText.setColor(sf::Color::Black);
 	speedText.setPosition(bounds.x - 50, 10);
+
+	controlText.setFont(font);
+	controlText.setCharacterSize(35);
+	controlText.setColor(sf::Color::Black);
+	controlText.setPosition(bounds.x / 2 - 100, 15);
+		
+	string s = "Escape:\t Exit\n";
+		  s += "Arrows: \tMove\n";
+			s+="Space: \t Jump\n";
+		   s+= "D:  \t\tdig\n\n";
+			s+="C:  \t\tshow developer Console\n";
+			s+="M:  \t\tshow Map in Console\n";
+			s+="A:  \t\ttoogle Collision Map\n";
+			s+="S:  \t\ttoogle Speed Text\n";
+			s+="I:  \t\tshow Intersect Counter\n";
+			s+="F1: \t\tshow controls\n";
+
+	controlText.setString(s);
 
 }
 
@@ -323,10 +348,15 @@ void Player::drawPlayer(sf::RenderWindow& window){
 	if(win)
 		window.draw(text);
 
-	if(showSpeedText)
-	window.draw(speedText);
-	
 	window.draw(playerShape);
+
+	window.draw(helpText);
+
+	if (showSpeedText)
+		window.draw(speedText);
+
+	if (showControlText)
+		window.draw(controlText);
 }
 
 void Player::setupJumpConfig(){

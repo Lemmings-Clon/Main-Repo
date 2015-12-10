@@ -116,6 +116,10 @@ int main(int argc, const char * argv[])
 					break;
 				case sf::Keyboard::Space:
 					player->jump();
+					break;
+				case sf::Keyboard::F1:
+					player->toogleControlText();
+					break;
 				default:
 					break;
 				}
