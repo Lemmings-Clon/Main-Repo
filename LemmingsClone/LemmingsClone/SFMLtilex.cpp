@@ -193,7 +193,7 @@ void SFMLtilex::draw(sf::RenderWindow& window){
 
 void SFMLtilex::loadTileshapes(){
 	tileshapes.clear();
-	tileshapes.resize(21);
+	tileshapes.resize(40);
 
 	/* LOWER PORTAL */
 
@@ -293,6 +293,34 @@ void SFMLtilex::loadTileshapes(){
 
 	tileshapes.insert(tileshapes.begin() + (int)tileshape::DIGBLOCK, shapedigblock);
 	tileshapes.erase(tileshapes.begin() + (int)tileshape::DIGBLOCK + 1);
+
+	/*SPIKES_UP*/
+
+	sf::ConvexShape shapeSpikeUP;
+	shapeSpikeUP.setPointCount(4);
+
+	shapeSpikeUP.setPoint(0, sf::Vector2f(3, 3));
+	shapeSpikeUP.setPoint(1, sf::Vector2f(29, 3));
+	shapeSpikeUP.setPoint(2, sf::Vector2f(29, 29));
+	shapeSpikeUP.setPoint(3, sf::Vector2f(3, 29));
+
+
+	tileshapes.insert(tileshapes.begin() + (int)tileshape::SPIKE_UP, shapeSpikeUP);
+	tileshapes.erase(tileshapes.begin() + (int)tileshape::SPIKE_UP + 1);
+
+	/*SPIKES_DOWN*/
+
+	sf::ConvexShape shapeSpikeDOWN;
+	shapeSpikeDOWN.setPointCount(4);
+
+	shapeSpikeDOWN.setPoint(0, sf::Vector2f(3, 3));
+	shapeSpikeDOWN.setPoint(1, sf::Vector2f(29, 3));
+	shapeSpikeDOWN.setPoint(2, sf::Vector2f(29, 29));
+	shapeSpikeDOWN.setPoint(3, sf::Vector2f(3, 29));
+
+
+	tileshapes.insert(tileshapes.begin() + (int)tileshape::SPIKE_DOWN, shapeSpikeDOWN);
+	tileshapes.erase(tileshapes.begin() + (int)tileshape::SPIKE_DOWN + 1);
 }
 
 void SFMLtilex::showMapContent(){

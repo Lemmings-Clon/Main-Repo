@@ -14,6 +14,8 @@ public: enum class direction { LEFT, RIGHT, STOP, INITIAL = -1 };
 		void move(direction dir);
 		std::vector<tilePos> cTileColMap;
 		void showIntersectCounter() { showIntersect = true; }
+		bool isDead();
+		void setDead(bool rev);
 
 private:
 	//walk variables

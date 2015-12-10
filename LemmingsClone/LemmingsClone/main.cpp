@@ -11,7 +11,7 @@ bool showConsole = false;
 
 int main(int argc, const char * argv[])
 {
-	SFMLtilex* f = new SFMLtilex("tiles.tmx");
+	SFMLtilex* f = new SFMLtilex("prototype.tmx");
 
 	//f->showMapContent();
 	
@@ -85,8 +85,12 @@ int main(int argc, const char * argv[])
 					player->dig();
 					break;
 				case sf::Keyboard::R:
-					f->reloadMap();
-					f->loadTexture();
+					/*
+					if (player->isDead) {
+						bool rev = false;
+						player->setDead(rev);
+					}
+					*/
 					break;
 				case sf::Keyboard::S:
 					player->toogleSpeedText();

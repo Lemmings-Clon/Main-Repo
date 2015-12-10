@@ -188,6 +188,8 @@ void Player::moveX(){
 				}
 				break;*/
 			case tileshape::LAVA:
+			case tileshape::SPIKE_UP:
+			case tileshape::SPIKE_DOWN:
 				dead = true;
 				return;
 			default: break;
@@ -321,6 +323,8 @@ void Player::moveY(){
 					}
 					break;*/
 				case tileshape::LAVA:
+				case tileshape::SPIKE_UP:
+				case tileshape::SPIKE_DOWN:
 					dead = true;
 					return;
 				}
@@ -363,10 +367,18 @@ void Player::setupJumpConfig(){
 	oldHeight = -1;
 	//jump variables
 	maxFallSpeed = 10;
-	configJumpImp = 10;
+	configJumpImp = 5;
 	g = 0.981f;
 	v = 0;
 	t = 0;
 	isJumping = isFalling = false;
 	starttimeFall = 0;
+}
+
+bool Player::isDead() {
+	return dead;
+}
+
+void Player::setDead(bool rev) {
+	dead = rev;
 }
