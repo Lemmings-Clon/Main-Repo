@@ -16,6 +16,8 @@ public: enum class direction { LEFT, RIGHT, STOP, INITIAL = -1 };
 		void showIntersectCounter() { showIntersect = true; }
 		bool isDead();
 		void setDead(bool rev);
+		void setupPlayer();
+		void setupPlayer(const sf::Texture* texture);
 
 private:
 	//walk variables
@@ -53,8 +55,6 @@ private:
 	sf::RectangleShape playerShape;
 	sf::Vector2f bounds;
 	sf::Vector2f pos;
-	void setupPlayer();
-	void setupPlayer(const sf::Texture* texture);
 	bool win;
 	bool dead;
 	bool cDig;

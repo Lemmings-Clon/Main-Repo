@@ -21,7 +21,7 @@ Player::Player(SFMLtilex* map) {
 void Player::setupPlayer(){
 
 	playerShape.setSize(sf::Vector2f(playerWidth, playerHeight));
-	playerShape.setFillColor(sf::Color::Green);
+	//playerShape.setFillColor(sf::Color::Green);
 
 	turn = true;
 	start = false;
@@ -61,7 +61,8 @@ void Player::setupText(){
 	string s = "Escape:\t Exit\n";
 		  s += "Arrows: \tMove\n";
 			s+="Space: \t Jump\n";
-		   s+= "D:  \t\tdig\n\n";
+			s+= "D:  \t\tdig\n\n";
+			s += "R:  \t\trestart\n\n";
 			s+="C:  \t\tshow developer Console\n";
 			s+="M:  \t\tshow Map in Console\n";
 			s+="A:  \t\ttoogle Collision Map\n";
@@ -323,6 +324,8 @@ void Player::moveY(){
 					}
 					break;*/
 				case tileshape::LAVA:
+					dead = true;
+					return;
 				case tileshape::SPIKE_UP:
 				case tileshape::SPIKE_DOWN:
 					dead = true;
@@ -381,4 +384,5 @@ bool Player::isDead() {
 
 void Player::setDead(bool rev) {
 	dead = rev;
+	win = rev;
 }
