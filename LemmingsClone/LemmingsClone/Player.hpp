@@ -14,6 +14,10 @@ public: enum class direction { LEFT, RIGHT, STOP, INITIAL = -1 };
 		void move(direction dir);
 		std::vector<tilePos> cTileColMap;
 		void showIntersectCounter() { showIntersect = true; }
+		bool isDead();
+		void setDead(bool rev);
+		void setupPlayer();
+		void setupPlayer(const sf::Texture* texture);
 
 private:
 	//walk variables
@@ -38,7 +42,7 @@ private:
 	long frametime;
 	long showGapCounter;
 	
-	
+
 	bool showIntersect = false;
 	unsigned long testcounter = 0;
 

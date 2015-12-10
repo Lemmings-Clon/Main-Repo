@@ -11,7 +11,7 @@ bool showConsole = false;
 
 int main(int argc, const char * argv[])
 {
-	SFMLtilex* f = new SFMLtilex("tiles.tmx");
+	SFMLtilex* f = new SFMLtilex("prototype.tmx");
 
 	//f->showMapContent();
 	
@@ -24,34 +24,6 @@ int main(int argc, const char * argv[])
 
 	Player* player = new Player(f);
 	player->setTexture(&texture);
-	Animation walkingAnimationDown;
-	walkingAnimationDown.setSpriteSheet(texture);
-	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(64, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(0, 0, 32, 32));
-
-	Animation walkingAnimationLeft;
-	walkingAnimationLeft.setSpriteSheet(texture);
-	walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-	walkingAnimationLeft.addFrame(sf::IntRect(64, 32, 32, 32));
-	walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-	walkingAnimationLeft.addFrame(sf::IntRect(0, 32, 32, 32));
-
-	Animation walkingAnimationRight;
-	walkingAnimationRight.setSpriteSheet(texture);
-	walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-	walkingAnimationRight.addFrame(sf::IntRect(64, 64, 32, 32));
-	walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-	walkingAnimationRight.addFrame(sf::IntRect(0, 64, 32, 32));
-
-	Animation walkingAnimationUp;
-	walkingAnimationUp.setSpriteSheet(texture);
-	walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-	walkingAnimationUp.addFrame(sf::IntRect(64, 96, 32, 32));
-	walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-	walkingAnimationUp.addFrame(sf::IntRect(0, 96, 32, 32));
-
 
 	sf::ContextSettings setting;
 	setting.antialiasingLevel = 2;
@@ -85,8 +57,11 @@ int main(int argc, const char * argv[])
 					player->dig();
 					break;
 				case sf::Keyboard::R:
-					f->reloadMap();
-					f->loadTexture();
+					delete player;
+					delete f;
+					f = new SFMLtilex("prototype.tmx");
+					player = new Player(f);
+					player->setTexture(&texture);
 					break;
 				case sf::Keyboard::S:
 					player->toogleSpeedText();

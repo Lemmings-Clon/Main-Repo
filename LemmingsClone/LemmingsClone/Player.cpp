@@ -63,11 +63,12 @@ void Player::setupText(){
 	string s = "Escape:\t Exit\n";
 		  s += "Arrows: \tMove\n";
 			s+="Space: \t Jump\n";
-		    s+="D:  \t\tdig\n\n";
+			s+= "D:  \t\tdig\n\n";
+			s += "R:  \t\trestart\n\n";
 			s+="C:  \t\tshow developer Console\n";
 			s+="M:  \t\tshow Map in Console\n";
 			s+="A:  \t\ttoogle Collision Map\n";
-			s+="S:  \t\ttoogle Speed Text\n";
+			s+="S:  \t\ttoogle FPS \n";
 			s+="I:  \t\tshow Intersect Counter\n";
 			s+="F1: \t\tshow controls\n";
 
@@ -127,13 +128,13 @@ void Player::move(){
 
 		if(walk)
 			moveX();
-		
+
 
 		//Bewegung in Y richtung
 		moveY();
 
 	
-}
+	}
 
 void Player::moveX(){
 
@@ -188,6 +189,8 @@ void Player::moveX(){
 				}
 				break;*/
 			case tileshape::LAVA:
+			case tileshape::SPIKE_UP:
+			case tileshape::SPIKE_DOWN:
 				dead = true;
 				return;
 			default: break;
@@ -325,6 +328,10 @@ void Player::moveY(){
 				case tileshape::LAVA:
 					dead = true;
 					return;
+				case tileshape::SPIKE_UP:
+				case tileshape::SPIKE_DOWN:
+					dead = true;
+					return;
 				}
 			}
 		}
@@ -376,10 +383,19 @@ void Player::setupJumpConfig(){
 	oldHeight = -1;
 	//jump variables
 	maxFallSpeed = 10;
-	configJumpImp = 10;
+	configJumpImp = 5;
 	g = 0.981f;
 	v = 0;
 	t = 0;
 	isJumping = isFalling = false;
 	starttimeFall = 0;
+}
+
+bool Player::isDead() {
+	return dead;
+}
+
+void Player::setDead(bool rev) {
+	dead = rev;
+	win = rev;
 }
