@@ -61,7 +61,6 @@ private:
 	sf::RectangleShape playerShape;
 	sf::Vector2f bounds;
 	sf::Vector2f pos;
-	void setupPlayer();
 	bool win;
 	bool dead;
 	bool cDig;
