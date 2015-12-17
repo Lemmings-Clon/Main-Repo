@@ -5,6 +5,7 @@ Player::Player(SFMLtilex* map) {
 
 	pMap = map;
 	cDig = false;
+	cClimb = false;
 	showSpeedText = false;
 	showControlText = false;
 	jumpImp = 0;
@@ -26,6 +27,7 @@ void Player::setupPlayer(){
 	turn = true;
 	start = false;
 	win = false;
+	cClimb = false;
 	dead = false;
 	speed = 1.85f;
 	currentDir = direction::INITIAL;
@@ -61,7 +63,8 @@ void Player::setupText(){
 	string s = "Escape:\t Exit\n";
 		  s += "Arrows: \tMove\n";
 			s+="Space: \t Jump\n";
-			s+= "D:  \t\tdig\n\n";
+			s+= "D:  \t\tdig\n";
+			s += "E:  \t\tclimbUp\n";
 			s += "R:  \t\trestart\n\n";
 			s+="C:  \t\tshow developer Console\n";
 			s+="M:  \t\tshow Map in Console\n";
@@ -129,9 +132,12 @@ void Player::move(){
 		++steps;
 		// Bewegung in x richtung
 
-		if(walk)
+		if (walk) {
 			moveX();
-
+		}
+		if (cClimb) {
+			climb();
+		}
 		//Bewegung in Y richtung
 		moveY();
 
@@ -174,6 +180,7 @@ void Player::moveX(){
 			case tileshape::LEFTBLOCK:
 			case tileshape::RIGHTBLOCK:
 				//	cout << " STOP " << endl;
+				cClimb = false;
 				setX(xOld);
 				if(isFalling||isJumping)
 					move(direction::STOP);
@@ -188,6 +195,14 @@ void Player::moveX(){
 						move(direction::STOP);
 				}
 				break;*/
+			case tileshape::LADDER:
+				if (!walk) {
+					cClimb = false;
+				}
+				if (cClimb && !isJumping && !isFalling) {
+					climb();
+				}
+				break;
 			case tileshape::LAVA:
 			case tileshape::SPIKE_UP:
 			case tileshape::SPIKE_DOWN:
@@ -299,6 +314,7 @@ void Player::moveY(){
 				case tileshape::LEFTBLOCK:
 				case tileshape::RIGHTBLOCK:
 					isJumping=isFalling=mayFall = false;
+					cClimb = false;
 					jumpImp=0;
 					if(v<=0){ //wenn er springt
 						newPosition= tCurrent.tilepos.getGlobalBounds().top+tCurrent.tilepos.getGlobalBounds().height;
@@ -307,6 +323,14 @@ void Player::moveY(){
 					}
 					if (die)
 						dead = true;
+					break;
+				case tileshape::LADDER:
+					if (!walk) {
+						cClimb = false;
+					}
+					if (cClimb && !isJumping && !isFalling) {
+						climb();
+					}
 					break;
 			/*	cased tileshape::DIGBLOCK:
 					if (walk == false) {
@@ -385,4 +409,70 @@ bool Player::isDead() {
 void Player::setDead(bool rev) {
 	dead = rev;
 	win = rev;
+}
+
+void Player::setClimb() {
+	cClimb = true;
+}
+
+void Player::climb() {
+
+	float yOld = pos.y;
+	float moveStep = step*(0.002f);
+	
+	setY(pos.y - moveStep);
+	//cout << "MOVE" << endl;
+	/* check left */
+	if (pos.y<0)
+		setY(0);
+
+	/* check right */
+	if ((pos.y + playerHeight)>bounds.y)
+		setY(bounds.y - playerHeight);
+
+
+	for (int counter = 0; counter < cTileColMap.size(); ++counter) {
+		tilePos tCurrent = cTileColMap[counter];
+		if (playerShape.getGlobalBounds().intersects(tCurrent.tilepos.getGlobalBounds())) {
+			switch (cTileColMap[counter].type)
+			{
+			case tileshape::UPPERPORTAL:
+			case tileshape::LOWERPORTAL:
+				cout << " WIN!! " << endl;
+				win = true;
+
+				return;
+
+			
+			case tileshape::LADDER:
+				if (!walk) {
+					cClimb = false;
+				}
+				if (cClimb && !isJumping && !isFalling) {
+					climb();
+				}
+				break;
+			case tileshape::LAVA:
+			case tileshape::SPIKE_UP:
+			case tileshape::SPIKE_DOWN:
+				dead = true;
+				return;
+			default: break;
+			}
+
+		}
+	}
+
+	//cDig = false;
+
+	if (step<1000) {
+		if (acc<30)
+			++acc;
+		step += (acc*speed);
+	}
+
+	if (step>1000) {
+		step = 1000;
+	}
+
 }

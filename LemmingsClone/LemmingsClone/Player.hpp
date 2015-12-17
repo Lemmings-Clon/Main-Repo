@@ -58,6 +58,7 @@ private:
 	bool win;
 	bool dead;
 	bool cDig;
+	bool cClimb;
 
 	void refreshPos() { playerShape.setPosition(pos); };
 
@@ -96,6 +97,8 @@ setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::Whi
 	void inline draw(sf::RenderWindow& window) { drawMap(window); drawPlayer(window); };
 	void consoleMap() { pMap->showMapContent(); }
 	void dig() {cDig = true;}
+	void setClimb();
+	void climb();
 	void inline toogleSpeedText(){ showSpeedText = !showSpeedText; }
 	void inline toogleControlText() { showControlText = !showControlText; }
 };

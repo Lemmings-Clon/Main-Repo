@@ -56,10 +56,11 @@ int main(int argc, const char * argv[])
 				case sf::Keyboard::D:
 					player->dig();
 					break;
+				case sf::Keyboard::E:
+					player->setClimb();
+					break;
 				case sf::Keyboard::R:
 					delete player;
-					delete f;
-					f = new SFMLtilex("prototype.tmx");
 					player = new Player(f);
 					player->setTexture(&texture);
 					break;

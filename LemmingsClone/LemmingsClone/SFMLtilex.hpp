@@ -7,7 +7,7 @@
 #include "NLTmxMap.hpp"
 
 //enum class tileshape {SKY=8,UPPERPORTAL=12, LOWERPORTAL=16, LEFTBLOCK=1, MIDDLEBLOCK=2, RIGHTBLOCK=3, START = 15, LAVA =5, DIGBLOCK=6, MIDDLEBREAK_1 = 6, MIDDLEBREAK_2 = 10, SPIKE_UP = 17, SPIKE_DOWN = 18}; //Enumeration der verschiedenen Tiles
-enum class tileshape { SKY = 10, UPPERPORTAL = 16, LOWERPORTAL = 22, LEFTBLOCK = 1, MIDDLEBLOCK = 2, RIGHTBLOCK = 3, START = 21, LAVA = 7, DIGBLOCK = 15, MIDDLEBREAK_1 = 8, MIDDLEBREAK_2 = 14, SPIKE_UP = 25, SPIKE_DOWN = 26 }; //Enumeration der verschiedenen Tiles
+enum class tileshape { SKY = 10, UPPERPORTAL = 16, LOWERPORTAL = 22, LEFTBLOCK = 1, MIDDLEBLOCK = 2, RIGHTBLOCK = 3, START = 21, LAVA = 7, DIGBLOCK = 15, MIDDLEBREAK_1 = 8, MIDDLEBREAK_2 = 14, SPIKE_UP = 25, SPIKE_DOWN = 26, LADDER = 27}; //Enumeration der verschiedenen Tiles
 
 
 struct tilePos{

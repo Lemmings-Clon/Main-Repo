@@ -321,6 +321,20 @@ void SFMLtilex::loadTileshapes(){
 
 	tileshapes.insert(tileshapes.begin() + (int)tileshape::SPIKE_DOWN, shapeSpikeDOWN);
 	tileshapes.erase(tileshapes.begin() + (int)tileshape::SPIKE_DOWN + 1);
+
+	/*LADDER*/
+
+	sf::ConvexShape shapeLADDER;
+	shapeLADDER.setPointCount(4);
+
+	shapeLADDER.setPoint(0, sf::Vector2f(0, 0));
+	shapeLADDER.setPoint(1, sf::Vector2f(32, 2));
+	shapeLADDER.setPoint(2, sf::Vector2f(32, 32));
+	shapeLADDER.setPoint(3, sf::Vector2f(0, 32));
+
+
+	tileshapes.insert(tileshapes.begin() + (int)tileshape::LADDER, shapeLADDER);
+	tileshapes.erase(tileshapes.begin() + (int)tileshape::LADDER + 1);
 }
 
 void SFMLtilex::showMapContent(){
