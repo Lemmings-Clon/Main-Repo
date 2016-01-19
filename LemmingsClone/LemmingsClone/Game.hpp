@@ -17,7 +17,7 @@ public:
 
 	enum class gameStates { MAINMENU, INTRO, PLAY, SETTINGS, GRAPHICSET, SOUNDSET, DIFFSET, HIGHSCORE, HIGHSCORELIST, SPLASHSTATE };
 
-	void Run(SFMLtilex* f);
+	void Run();
 	void ChangeState(gameStates newState);
 	void ChangeLevel(int level) { cLevel = level; }
 	static int getLevel() {	return cLevel;}

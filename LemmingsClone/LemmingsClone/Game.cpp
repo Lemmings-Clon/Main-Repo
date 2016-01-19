@@ -25,9 +25,9 @@ Game::~Game() {
 	CurrentState = nullptr;
 }
 
-void Game::Run(SFMLtilex* f) {
+void Game::Run() {
 
-
+		SFMLtilex* f = new SFMLtilex("prototype.tmx");
 		//f->showMapContent();
 
 		sf::Texture texture;

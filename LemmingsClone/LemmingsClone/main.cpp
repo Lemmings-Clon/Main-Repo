@@ -7,11 +7,10 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML WORK!");
-	SFMLtilex* f = new SFMLtilex("prototype.tmx");
+	sf::RenderWindow window(sf::VideoMode(600, 600), "Portal Guy");
 	Menu menu(window.getSize().x, window.getSize().y);
 
-	Game* level1 = new Game();
+	Game* level4 = new Game();
 
 	while (window.isOpen())
 	{
@@ -32,13 +31,18 @@ int main()
 					menu.MoveDown();
 					break;
 
+				case sf::Keyboard::Q:
+					window.close();
+					break;
+				
 				case sf::Keyboard::Return:
 					switch (menu.GetPressedItem())
 					{
-					case 0:
-						level1->Run(f);
+					case 3:
+						level4->setRunning(true);
+						level4->Run();
 						break;
-					case 1:
+					case 4:
 						window.close();
 						break;
 					}
