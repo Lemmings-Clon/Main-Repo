@@ -3,11 +3,12 @@
 #include "Menu.h"
 #include "Game.hpp"
 #include "Player.hpp"
+#include "SFMLtilex.hpp"
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML WORK!");
-
+	SFMLtilex* f = new SFMLtilex("prototype.tmx");
 	Menu menu(window.getSize().x, window.getSize().y);
 
 	Game* level1 = new Game();
@@ -35,7 +36,7 @@ int main()
 					switch (menu.GetPressedItem())
 					{
 					case 0:
-						level1->Run();
+						level1->Run(f);
 						break;
 					case 1:
 						window.close();

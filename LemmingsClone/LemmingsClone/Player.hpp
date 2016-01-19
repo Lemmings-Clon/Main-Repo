@@ -21,7 +21,7 @@ public: enum class direction { LEFT, RIGHT, STOP, INITIAL = -1 };
 
 private:
 	//walk variables
-	float steps; //zählt wie viele schritte in der vergangenen Zeit geangen wurden
+	int steps; //zählt wie viele schritte in der vergangenen Zeit geangen wurden
 	bool turn;  //schaut nach ob die richtung gewechselt wurde
 	float acc;  //beschleunigung
 	bool start;
@@ -30,22 +30,16 @@ private:
 	float step; //ist die größe der schritte
 	float speed; //die geschwindigkeit (geschwindigkeit * beschleunigung = eigentliche geschwindigketigeit)
 
-
-
-	// Temp variables
+				 // Temp variables
 	sf::Text text;
 	sf::Text helpText;
 	sf::Text speedText;
 	bool showSpeedText;
 	sf::Text controlText;
 	bool showControlText;
-	long frametime;
-	long showGapCounter;
-	
 
 	bool showIntersect = false;
 	unsigned long testcounter = 0;
-
 
 
 	sf::Font font;
@@ -64,13 +58,14 @@ private:
 	bool win;
 	bool dead;
 	bool cDig;
+	bool cClimb;
 
 	void refreshPos() { playerShape.setPosition(pos); };
 
 
 	double oldHeight; //debug variable
 
-	//jump variables
+					  //jump variables
 	short maxFallSpeed;
 	float jumpImp;
 	float configJumpImp;
@@ -87,7 +82,8 @@ private:
 public:
 
 	Player(SFMLtilex* map);
-	void inline setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::White); playerShape.setTexture(texture); };
+	void inline
+		setTexture(const sf::Texture* texture) { playerShape.setFillColor(sf::Color::White); playerShape.setTexture(texture); };
 	//void setMap(SFMLtilex* map){ pMap= map;};
 	void inline setTilePos(std::vector<tilePos> pos) { cTileColMap = pos; };
 	void inline setBounds(sf::Vector2f bnd) { bounds = bnd; };
@@ -100,8 +96,10 @@ public:
 	void inline drawMap(sf::RenderWindow &window) { pMap->draw(window); };
 	void inline draw(sf::RenderWindow& window) { drawMap(window); drawPlayer(window); };
 	void consoleMap() { pMap->showMapContent(); }
-	void inline dig() {cDig = true;}
-	void inline toogleSpeedText(){ showSpeedText = !showSpeedText; }
+	void dig() { cDig = true; }
+	void setClimb();
+	void climb();
+	void inline toogleSpeedText() { showSpeedText = !showSpeedText; }
 	void inline toogleControlText() { showControlText = !showControlText; }
 };
 

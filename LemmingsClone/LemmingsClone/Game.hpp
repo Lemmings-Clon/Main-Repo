@@ -7,6 +7,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include "Gamestate.hpp"
+#include "SFMLtilex.hpp"
 #include "PlayState.hpp"
 
 class Game {
@@ -16,7 +17,7 @@ public:
 
 	enum class gameStates { MAINMENU, INTRO, PLAY, SETTINGS, GRAPHICSET, SOUNDSET, DIFFSET, HIGHSCORE, HIGHSCORELIST, SPLASHSTATE };
 
-	void Run();
+	void Run(SFMLtilex* f);
 	void ChangeState(gameStates newState);
 	void ChangeLevel(int level) { cLevel = level; }
 	static int getLevel() {	return cLevel;}

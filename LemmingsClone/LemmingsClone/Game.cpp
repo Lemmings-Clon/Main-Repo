@@ -25,10 +25,8 @@ Game::~Game() {
 	CurrentState = nullptr;
 }
 
-void Game::Run() {
+void Game::Run(SFMLtilex* f) {
 
-
-		SFMLtilex* f = new SFMLtilex("prototype.tmx");
 
 		//f->showMapContent();
 
