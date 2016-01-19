@@ -27,7 +27,24 @@ Game::~Game() {
 
 void Game::Run() {
 
-		SFMLtilex* f = new SFMLtilex("prototype.tmx");
+	SFMLtilex* f;
+	if (reqLevel == 1)
+	{
+		f = new SFMLtilex("level1.tmx");
+	}
+	if (reqLevel == 2)
+	{
+		f = new SFMLtilex("prototype2.tmx");
+	}
+	if (reqLevel == 3)
+	{
+		f = new SFMLtilex("level2.tmx");
+	}
+
+	if (reqLevel == 4)
+	{
+		f = new SFMLtilex("prototype.tmx");
+	}
 		//f->showMapContent();
 
 		sf::Texture texture;
@@ -77,7 +94,24 @@ void Game::Run() {
 					case sf::Keyboard::R:
 						delete player;
 						delete f;
-						f = new SFMLtilex("prototype.tmx");
+						if (reqLevel == 1)
+						{
+							f = new SFMLtilex("level1.tmx");
+						}
+
+						if (reqLevel == 2)
+						{
+							f = new SFMLtilex("prototype2.tmx");
+						}
+						if (reqLevel == 3)
+						{
+							f = new SFMLtilex("level2.tmx");
+						}
+
+						if (reqLevel == 4)
+						{
+							f = new SFMLtilex("prototype.tmx");
+						}
 						player = new Player(f);
 						player->setTexture(&texture);
 						break;
@@ -164,6 +198,10 @@ void Game::ChangeState(gameStates newState) {
 
 void Game::setRunning(bool mRunning) {
 	running = mRunning;
+}
+
+void Game::setLevel(int x) {
+	reqLevel = x;
 }
 
 void Game::Quit() {

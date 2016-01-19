@@ -10,7 +10,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(600, 600), "Portal Guy");
 	Menu menu(window.getSize().x, window.getSize().y);
 
-	Game* level4 = new Game();
+	Game* level = new Game();
 
 	while (window.isOpen())
 	{
@@ -38,9 +38,25 @@ int main()
 				case sf::Keyboard::Return:
 					switch (menu.GetPressedItem())
 					{
+					case 0:
+						level->setRunning(true);
+						level->setLevel(1);
+						level->Run();
+						break;
+					case 1:
+						level->setRunning(true);
+						level->setLevel(2);
+						level->Run();
+						break;
+					case 2:
+						level->setRunning(true);
+						level->setLevel(3);
+						level->Run();
+						break;
 					case 3:
-						level4->setRunning(true);
-						level4->Run();
+						level->setRunning(true);
+						level->setLevel(4);
+						level->Run();
 						break;
 					case 4:
 						window.close();

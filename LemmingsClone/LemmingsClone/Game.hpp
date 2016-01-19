@@ -26,6 +26,7 @@ public:
 	const bool getIntroPlayed() { return playedIntro; }
 
 	void setRunning(bool mRunning);
+	void setLevel(int reqLevel);
 	void setIntroPlayed(bool played) { playedIntro = played; };
 
 	sf::RenderWindow	window;
@@ -39,7 +40,7 @@ private:
 	void checkScreenSet();
 
 	std::unique_ptr<GameState> CurrentState;
-
+	int reqLevel;
 	bool running;
 	bool playedIntro;
 	static int cLevel;
