@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NLTmxMap.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayState.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="NLTmxMap.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayState.hpp" />

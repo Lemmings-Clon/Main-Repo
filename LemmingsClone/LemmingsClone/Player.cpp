@@ -5,11 +5,10 @@ Player::Player(SFMLtilex* map) {
 
 	pMap = map;
 	cDig = false;
+	cClimb = false;
 	showSpeedText = false;
 	showControlText = false;
 	jumpImp = 0;
-	frametime = 0;
-	showGapCounter = 0;
 	sf::Vector2f tempStartPos(pMap->getStart());
 	tempStartPos.y = pMap->getStart().y + pMap->getTileHeight() - playerHeight;
 	setPos(tempStartPos);	
@@ -22,12 +21,13 @@ Player::Player(SFMLtilex* map) {
 
 void Player::setupPlayer(){
 
-	playerShape.setSize(sf::Vector2f((float)playerWidth, (float)playerHeight));
-	playerShape.setFillColor(sf::Color::Green);
+	playerShape.setSize(sf::Vector2f(playerWidth, playerHeight));
+	//playerShape.setFillColor(sf::Color::Green);
 
 	turn = true;
 	start = false;
 	win = false;
+	cClimb = false;
 	dead = false;
 	speed = 1.85f;
 	currentDir = direction::INITIAL;
@@ -51,9 +51,9 @@ void Player::setupText(){
 	helpText.setString("Press F1 for controls");
 	
 	speedText.setFont(font);
-	speedText.setCharacterSize(28);
+	speedText.setCharacterSize(22);
 	speedText.setColor(sf::Color::Black);
-	speedText.setPosition(bounds.x - 150, 15);
+	speedText.setPosition(bounds.x - 50, 10);
 
 	controlText.setFont(font);
 	controlText.setCharacterSize(35);
@@ -63,12 +63,13 @@ void Player::setupText(){
 	string s = "Escape:\t Exit\n";
 		  s += "Arrows: \tMove\n";
 			s+="Space: \t Jump\n";
-			s+= "D:  \t\tdig\n\n";
+			s+= "D:  \t\tdig\n";
+			s += "E:  \t\tclimbUp\n";
 			s += "R:  \t\trestart\n\n";
 			s+="C:  \t\tshow developer Console\n";
 			s+="M:  \t\tshow Map in Console\n";
 			s+="A:  \t\ttoogle Collision Map\n";
-			s+="S:  \t\ttoogle FPS \n";
+			s+="S:  \t\ttoogle Speed Text\n";
 			s+="I:  \t\tshow Intersect Counter\n";
 			s+="F1: \t\tshow controls\n";
 
@@ -117,24 +118,31 @@ void Player::move(){
 
 	}
 	if(turn){
-		steps = 0;
+		
 		step = 0;
 		acc = 1;
 		turn = false;
 		starttime = clock.getElapsedTime().asMilliseconds()/10;
+		steps = 0;
 	}
 
 
 
-		if(walk)
+	while(steps < clock.getElapsedTime().asMilliseconds()/10-starttime){
+		++steps;
+		// Bewegung in x richtung
+
+		if (walk) {
 			moveX();
-
-
+		}
+		if (cClimb) {
+			climb();
+		}
 		//Bewegung in Y richtung
 		moveY();
 
-	
 	}
+}
 
 void Player::moveX(){
 
@@ -143,9 +151,7 @@ void Player::moveX(){
 	if(currentDir==direction::LEFT)
 		moveStep*=-1;
 
-	steps = (float) clock.getElapsedTime().asMilliseconds() / 10 - starttime;
-	starttime = (int) steps;
-	setX(pos.x+(moveStep*(steps*0.025f)));
+	setX(pos.x+moveStep);
 	//cout << "MOVE" << endl;
 	/* check left */
 	if(pos.x<0)
@@ -174,6 +180,7 @@ void Player::moveX(){
 			case tileshape::LEFTBLOCK:
 			case tileshape::RIGHTBLOCK:
 				//	cout << " STOP " << endl;
+				cClimb = false;
 				setX(xOld);
 				if(isFalling||isJumping)
 					move(direction::STOP);
@@ -188,6 +195,14 @@ void Player::moveX(){
 						move(direction::STOP);
 				}
 				break;*/
+			case tileshape::LADDER:
+				if (!walk) {
+					cClimb = false;
+				}
+				if (cClimb && !isJumping && !isFalling) {
+					climb();
+				}
+				break;
 			case tileshape::LAVA:
 			case tileshape::SPIKE_UP:
 			case tileshape::SPIKE_DOWN:
@@ -233,10 +248,8 @@ void Player::moveY(){
 		cDig = true;
 		die = true;
 	}
-
-
+	speedText.setString(std::to_string(v));
 	setY(pos.y+v);
-
 	bool mayFall = true;
 
 	if((pos.y+playerHeight)>bounds.y){  //wenn der Player den Boden berührt, gibt es keine Y-Bewegung
@@ -301,6 +314,7 @@ void Player::moveY(){
 				case tileshape::LEFTBLOCK:
 				case tileshape::RIGHTBLOCK:
 					isJumping=isFalling=mayFall = false;
+					cClimb = false;
 					jumpImp=0;
 					if(v<=0){ //wenn er springt
 						newPosition= tCurrent.tilepos.getGlobalBounds().top+tCurrent.tilepos.getGlobalBounds().height;
@@ -309,6 +323,14 @@ void Player::moveY(){
 					}
 					if (die)
 						dead = true;
+					break;
+				case tileshape::LADDER:
+					if (!walk) {
+						cClimb = false;
+					}
+					if (cClimb && !isJumping && !isFalling) {
+						climb();
+					}
 					break;
 			/*	cased tileshape::DIGBLOCK:
 					if (walk == false) {
@@ -354,17 +376,6 @@ void Player::jump(){
 }
 
 void Player::drawPlayer(sf::RenderWindow& window){
-	int time = clock.getElapsedTime().asMilliseconds();
-	int elapsedTime = time - frametime;
-	if (elapsedTime == 0)
-		++elapsedTime;
-	if (time - showGapCounter > 100) {
-		speedText.setString("FPS: " + std::to_string(1000 / elapsedTime));
-		showGapCounter = time;
-	}
-	frametime = clock.getElapsedTime().asMilliseconds();
-	
-	
 	if(win)
 		window.draw(text);
 
@@ -383,7 +394,7 @@ void Player::setupJumpConfig(){
 	oldHeight = -1;
 	//jump variables
 	maxFallSpeed = 10;
-	configJumpImp = 5;
+	configJumpImp = 4.2;
 	g = 0.981f;
 	v = 0;
 	t = 0;
@@ -398,4 +409,70 @@ bool Player::isDead() {
 void Player::setDead(bool rev) {
 	dead = rev;
 	win = rev;
+}
+
+void Player::setClimb() {
+	cClimb = true;
+}
+
+void Player::climb() {
+
+	float yOld = pos.y;
+	float moveStep = step*(0.002f);
+	
+	setY(pos.y - moveStep);
+	//cout << "MOVE" << endl;
+	/* check left */
+	if (pos.y<0)
+		setY(0);
+
+	/* check right */
+	if ((pos.y + playerHeight)>bounds.y)
+		setY(bounds.y - playerHeight);
+
+
+	for (int counter = 0; counter < cTileColMap.size(); ++counter) {
+		tilePos tCurrent = cTileColMap[counter];
+		if (playerShape.getGlobalBounds().intersects(tCurrent.tilepos.getGlobalBounds())) {
+			switch (cTileColMap[counter].type)
+			{
+			case tileshape::UPPERPORTAL:
+			case tileshape::LOWERPORTAL:
+				cout << " WIN!! " << endl;
+				win = true;
+
+				return;
+
+			
+			case tileshape::LADDER:
+				if (!walk) {
+					cClimb = false;
+				}
+				if (cClimb && !isJumping && !isFalling) {
+					climb();
+				}
+				break;
+			case tileshape::LAVA:
+			case tileshape::SPIKE_UP:
+			case tileshape::SPIKE_DOWN:
+				dead = true;
+				return;
+			default: break;
+			}
+
+		}
+	}
+
+	//cDig = false;
+
+	if (step<1000) {
+		if (acc<30)
+			++acc;
+		step += (acc*speed);
+	}
+
+	if (step>1000) {
+		step = 1000;
+	}
+
 }
