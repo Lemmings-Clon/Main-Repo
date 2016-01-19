@@ -299,10 +299,10 @@ void SFMLtilex::loadTileshapes(){
 	sf::ConvexShape shapeSpikeUP;
 	shapeSpikeUP.setPointCount(4);
 
-	shapeSpikeUP.setPoint(0, sf::Vector2f(1, 1));
-	shapeSpikeUP.setPoint(1, sf::Vector2f(30, 1));
-	shapeSpikeUP.setPoint(2, sf::Vector2f(30, 24));
-	shapeSpikeUP.setPoint(3, sf::Vector2f(1, 24));
+	shapeSpikeUP.setPoint(0, sf::Vector2f(10, 1));
+	shapeSpikeUP.setPoint(1, sf::Vector2f(20, 1));
+	shapeSpikeUP.setPoint(2, sf::Vector2f(28, 24));
+	shapeSpikeUP.setPoint(3, sf::Vector2f(4, 24));
 
 
 	tileshapes.insert(tileshapes.begin() + (int)tileshape::SPIKE_UP, shapeSpikeUP);
@@ -316,7 +316,7 @@ void SFMLtilex::loadTileshapes(){
 	shapeSpikeDOWN.setPoint(0, sf::Vector2f(1, 8));
 	shapeSpikeDOWN.setPoint(1, sf::Vector2f(30, 8));
 	shapeSpikeDOWN.setPoint(2, sf::Vector2f(30, 31));
-	shapeSpikeDOWN.setPoint(3, sf::Vector2f(1, 31));
+	shapeSpikeDOWN.setPoint(3, sf::Vector2f(4, 31));
 
 
 	tileshapes.insert(tileshapes.begin() + (int)tileshape::SPIKE_DOWN, shapeSpikeDOWN);

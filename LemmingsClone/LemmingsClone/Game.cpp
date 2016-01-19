@@ -1,4 +1,6 @@
 #include "Game.hpp"
+#include "SFMLtilex.hpp"
+#include "Player.hpp"
 #include <Windows.h>
 
 
@@ -24,31 +26,103 @@ Game::~Game() {
 }
 
 void Game::Run() {
-	while (running) {
 
 
-		//trap mouse curser in window
-		HWND hwnd;
-		hwnd = FindWindow(0, LPCWSTR("Pew"));
-		RECT r;
-		//top left coords
-		r.left = window.getPosition().x;
-		r.top = window.getPosition().y;
-		//bottom right coords
-		r.right = window.getPosition().x + window.getSize().x;
-		r.bottom = window.getPosition().y + window.getSize().y;
+		SFMLtilex* f = new SFMLtilex("prototype.tmx");
 
-		//clip mouse to window
-		GetWindowRect(hwnd, &r);
-		ClipCursor(&r);
+		//f->showMapContent();
 
-		//do the game stuff
-		Update();
-		HandleEvents();
-		Render();
-		Quit();
+		sf::Texture texture;
+		if (!texture.loadFromFile("char3.png"))
+		{
+			std::cout << "Failed to load player spritesheet!" << std::endl;
+		}
+
+		Player* player = new Player(f);
+		player->setTexture(&texture);
+
+		sf::ContextSettings setting;
+		setting.antialiasingLevel = 2;
+		ShowWindow(GetConsoleWindow(), SW_HIDE);
+		int w, h;
+		sf::RenderWindow window(sf::VideoMode(w = f->getTotalWidth(), h = f->getTotalHeight()), "PortalGuy", sf::Style::Default, setting);
+
+		while (running)
+		{
+			// check all the window's events that were triggered since the last iteration of the loop
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				// "close requested" event: we close the window
+				if (event.type == sf::Event::Closed) {
+					delete player;
+					delete f;
+					window.close();
+				}
+				if (event.type == sf::Event::KeyPressed)
+				{
+					switch (event.key.code)
+					{
+					case sf::Keyboard::Escape:
+						running = false;
+						Quit();
+						break;
+					case sf::Keyboard::M:
+						player->consoleMap();
+						break;
+					case sf::Keyboard::D:
+						player->dig();
+						break;
+					case sf::Keyboard::E:
+						player->setClimb();
+						break;
+					case sf::Keyboard::R:
+						delete player;
+						delete f;
+						f = new SFMLtilex("prototype.tmx");
+						player = new Player(f);
+						player->setTexture(&texture);
+						break;
+					case sf::Keyboard::S:
+						player->toogleSpeedText();
+						break;
+					case sf::Keyboard::I:
+						player->showIntersectCounter();
+						break;
+					
+					case sf::Keyboard::A:
+						f->changeColMap();
+						break;
+					case sf::Keyboard::Left:
+						player->move(Player::direction::LEFT);
+						break;
+					case sf::Keyboard::Right:
+						player->move(Player::direction::RIGHT);
+						break;
+					case sf::Keyboard::Down:
+						player->move(Player::direction::STOP);
+						break;
+					case sf::Keyboard::Space:
+						player->jump();
+						break;
+					case sf::Keyboard::F1:
+						player->toogleControlText();
+						break;
+					default:
+						break;
+					}
+				}
+
+
+			}
+
+			window.clear();
+			player->move();
+			player->draw(window);
+			window.display();
+		}	//somechange
 	}
-}
+
 
 void Game::ChangeState(gameStates newState) {
 	switch (newState) {

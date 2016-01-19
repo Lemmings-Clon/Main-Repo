@@ -394,7 +394,7 @@ void Player::setupJumpConfig(){
 	oldHeight = -1;
 	//jump variables
 	maxFallSpeed = 10;
-	configJumpImp = 5;
+	configJumpImp = 4.2;
 	g = 0.981f;
 	v = 0;
 	t = 0;
