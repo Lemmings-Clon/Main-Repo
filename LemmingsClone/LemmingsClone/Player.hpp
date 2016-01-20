@@ -96,7 +96,7 @@ public:
 	void inline drawMap(sf::RenderWindow &window) { pMap->draw(window); };
 	void inline draw(sf::RenderWindow& window) { drawMap(window); drawPlayer(window); };
 	void consoleMap() { pMap->showMapContent(); }
-	void dig() { cDig = true; }
+	void dig() { if (cDig == false && start == true){ cDig = true;}}
 	void setClimb();
 	void climb();
 	void inline toogleSpeedText() { showSpeedText = !showSpeedText; }
